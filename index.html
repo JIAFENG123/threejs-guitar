@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Three.js + Blender 吉他</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #0d1015; }
+    #app { width: 100%; height: 100%; display: block; touch-action: none; }
+    .hud {
+      position: fixed; top: 16px; left: 16px; z-index: 10;
+      color: #cfd8e3; font: 13px/1.7 "SF Mono", Consolas, monospace;
+      background: rgba(13, 17, 23, 0.72); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px;
+      padding: 14px 18px; max-width: 340px; user-select: none;
+    }
+    .hud h1 { font-size: 15px; color: #fff; margin-bottom: 6px; font-weight: 600; }
+    .hud .fret { color: #7fd0ff; font-size: 22px; font-weight: 700; }
+    .hud .fret small { font-size: 12px; color: #8a97a8; font-weight: 400; }
+    .hud .notes { display: flex; gap: 6px; margin: 8px 0; }
+    .hud .notes span {
+      flex: 1; text-align: center; background: rgba(255, 255, 255, 0.06);
+      border-radius: 5px; padding: 3px 0; font-size: 12px;
+    }
+    .hud .notes span b { display: block; color: #ffd479; font-size: 13px; }
+    .hud ul { list-style: none; color: #8a97a8; font-size: 12px; }
+    .hud kbd {
+      color: #e6edf3; background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px; padding: 0 5px; font-family: inherit;
+    }
+    #audioHint {
+      display: none; margin-top: 8px; padding: 6px 8px;
+      background: rgba(255, 176, 32, 0.12); border: 1px solid rgba(255, 176, 32, 0.4);
+      color: #ffb020; border-radius: 6px; font-size: 12px;
+    }
+    #status {
+      position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+      color: #8a97a8; font: 14px Consolas, monospace; z-index: 20; pointer-events: none;
+    }
+    .brand {
+      position: fixed; right: 16px; bottom: 12px; z-index: 10;
+      color: #4a5568; font: 11px Consolas, monospace; user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="app"></canvas>
+  <div id="status">正在加载吉他模型…</div>
+  <div class="hud">
+    <h1>Blender × Three.js 声学吉他</h1>
+    <div class="fret"><span id="fretNum">0</span> 品 <small id="fretHint">空弦</small></div>
+    <div class="notes" id="notes"></div>
+    <ul>
+      <li><kbd>点击 / 划过琴弦</kbd> 拨弦（拖住琴弦滑动＝扫弦）</li>
+      <li><kbd>1</kbd>–<kbd>6</kbd> 或 <kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><kbd>F</kbd><kbd>G</kbd><kbd>H</kbd> 拨第 6→1 弦</li>
+      <li><kbd>↑</kbd><kbd>↓</kbd> 切换品位　<kbd>Space</kbd> 扫弦　<kbd>R</kbd> 复位　<kbd>M</kbd> 静音</li>
+      <li>拖动空白处旋转视角 · 滚轮缩放</li>
+    </ul>
+    <div id="audioHint">声音未启用（浏览器自动播放限制）— 点击画面或按任意键后即可出声</div>
+  </div>
+  <div class="brand">model: blender/make_guitar.py → public/guitar.glb</div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
